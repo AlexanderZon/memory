@@ -1,0 +1,211 @@
+<html>
+<head>
+	<title>Memoria</title>
+</head>
+
+<link rel="stylesheet" type="text/css" href="css/estilo.css">
+
+<style type="text/css">
+	header div{
+		display: inline-block;
+	}
+	header div.poiter{
+		display: inline-block;
+		float:right;
+		position: relative;
+		right: 10px;
+	}
+	.pointer .bar{
+		display: inline-block;
+		width: 300px;
+		height: 10px; 
+	}
+	.pointer .bar .non-charged-bar{
+		display: inline-block;
+		background-color: #5fa6cb;
+		width: 100%;
+		height: 100%;
+	}
+	.pointer .bar .charged-bar{
+		margin-right: -6px;
+		display: inline-block;
+		background-color: #0a3e59;
+		width: 0%;
+		height: 100%;
+	}
+</style>
+<script type="text/javascript" src="js/jquery.js"></script>
+
+<body>
+
+	<header>
+		<div class="title">Juego de Memoria</div>
+		<div class="pointer">
+			<div class="bar" data-value="0">
+				<div class="charged-bar"></div>
+				<div class="non-charged-bar"></div>
+			</div>
+			<div class="percentage">0%</div>
+		</div>
+	</header>
+
+	<div class="content">
+
+		<div class="content-header"></div>
+
+		<div class="content-wrap">
+			
+			<!-- the items go here -->				
+
+		</div>
+		
+	</div>
+
+	<footer>Creado por Alexis Montenegro CTO Magicmedia Inc.</footer>
+
+	<script type="text/javascript">
+
+		var items = [
+			{
+				id: 'a51bd4dd',
+				title: 'caballo',
+				img: 'img/caballo.jpg',
+				count: 0,
+			},
+			{
+				id: '189deca9',
+				title: 'conejo',
+				img: 'img/conejo.jpg',
+				count: 0,
+			},
+			{
+				id: '0fe6c8a7',
+				title: 'guacamayo',
+				img: 'img/guacamayo.jpg',
+				count: 0,
+			},
+			{
+				id: '81bec0da',
+				title: 'lobo',
+				img: 'img/lobo.jpg',
+				count: 0,
+			},
+			{
+				id: '7198edca',
+				title: 'mono',
+				img: 'img/mono.jpg',
+				count: 0,
+			},
+			{
+				id: '1781deca',
+				title: 'oso',
+				img: 'img/oso.jpg',
+				count: 0,
+			},
+			{
+				id: 'bca6d7ee',
+				title: 'tigre',
+				img: 'img/tigre.jpg',
+				count: 0,
+			},
+			{
+				id: 'a8ca68bc',
+				title: 'tortuga.jpg',
+				img: 'img/tortuga.jpg',
+				count: 0,
+			},
+			{
+				id: '09adcbe1',
+				title: 'venado',
+				img: 'img/venado.jpg',
+				count: 0,
+			},
+		];
+
+		covered = 0;
+
+		$(document).on('ready', function(){
+			var random = 0;
+			var selected = 0;
+			for(counter = 0; counter < (items.length*2); counter++){
+				random = Math.floor((Math.random() * items.length ) + 1);
+				for(i = 0; i < random; ){
+					//console.log('  -  selected-temp: ' + selected + ', i: ' + i);
+					selected++;
+					if(selected >= items.length) selected -= items.length;
+					if(items[selected].count < 2){
+						i++;
+					}
+				}
+				console.log(JSON.stringify(items));
+				console.log('Cicle: ' + counter + ', Selected: ' + selected );
+				items[selected].count++;
+				html = '<div class="card-container">' +
+							'<div class="card" data-item="'+items[selected].id+'" data-switched="false" data-finded="false">' +
+								'<figure class="back">' +
+									'<img src="'+items[selected].img+'" width="100%"/>' +
+								'</figure>' +
+								'<div class="front"><img src="img/logo.jpg" width="100%"/></div>' +
+							'</div>' +
+						'</div>';
+				$('.content-wrap').append(html);
+			}
+			$('.card-container .card').on('click', function(e){
+				var elem = $(this);
+				e.preventDefault();
+				if(elem.attr('data-finded') == 'false'){
+					$(this).css({
+						'-webkit-transform' : 'rotateY(180deg)',
+					});
+					if($('div[data-switched=true]').length == 1){
+						console.log('segunda');
+						var switched = $('div[data-switched=true]');
+						if(switched.attr('data-item') == elem.attr('data-item')){
+							elem.attr('data-finded','true');
+							switched.attr('data-finded','true');
+							elem.attr('data-switched','false');
+							switched.attr('data-switched','false');
+							covered++;
+							var percentage = Math.floor(100/items.length*covered);
+							$('.bar').attr('data-value',percentage);
+							$('.charged-bar').css({
+								'width':percentage+'%',
+							});
+							$('.non-charged-bar').css({
+								'width':(100-percentage)+'%',
+							});
+							$('.percentage').html(percentage+'%');
+							console.log('iguales');
+							if(percentage == 100){
+								setTimeout(function(){
+									$('.content-wrap').html('<div style="width:100%; height: 600px; text-align: center"><div style="padding: 2em;background-color:#0a3e59;color: #EEE; vertical-align: middle;">Has ganado!</br><a href="">Vuelve a intentarlo</a></div></div>');
+								}, 1000);
+							}
+						}
+						else{
+							console.log('diferentes');
+							elem.attr('data-switched','false');
+							switched.attr('data-switched','false');
+							setTimeout(function(){
+								elem.css({
+									'-webkit-transform' : 'rotateY(0deg)',
+								});
+								switched.css({
+									'-webkit-transform' : 'rotateY(0deg)',
+								});
+							}, 1500);
+						}
+					}
+					else{
+						console.log('primera');
+						elem.attr('data-switched','true');
+					}
+				}
+				else{
+					console.log('ya esta descubierta');
+				}
+			})
+		})
+	</script>
+</body>
+</html>

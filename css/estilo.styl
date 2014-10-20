@@ -1,0 +1,172 @@
+$azul=#2980b9
+$river=#3498db
+$neph=#27ae60
+$white=#ecf0f1
+$emerald=#2ecc71
+$turquesa = #1abc9c
+$silver =#bdc3c7
+
+
+@import "font/stylesheet.css"
+@import "normalize.css"
+
+
+*, *::before, *::after
+	box-sizing border-box
+a
+	text-decoration none
+	font-size .8em
+body
+	font-family "caviar_dreamsregular"
+	background-color $white
+header
+	position relative
+	background-color $neph
+	padding 1em
+	& a
+		color $white
+	& h1
+		margin 0
+	& nav
+		position absolute
+		right 4em
+		top .1em
+		z-index 2
+input[type=email]
+input[type=password]
+input[type=text]
+	color blue
+	outline none
+	padding 5px 10px
+input[type=submit]
+	display inline-block
+	padding 10px 5px
+	-webkit-apparence none
+	box-sizing content-box
+.sidebar
+	background-color $emerald
+	border 2px grey
+	margin 0
+	position relative
+	width 15%
+	float left
+	overflow hidden
+	& li 
+		list-style none
+		& a
+			width 100%
+			display inline-block
+			background-color $neph	
+			padding 1em
+			color $white
+			text-decoration none
+			margin-top .2em
+.user
+	& h5
+		display inline-block
+		color $white
+.content
+	position relative
+	display inline-block
+	width 85%
+	margin 0
+	padding 2em
+	& .card-container
+		perspective 1000
+		cursor pointer
+		margin 0 0 1em 1em
+		display inline-block
+		&:hover .card
+			-webkit-transform rotateY(180deg)
+		& .card
+			position relative
+			width 100%
+			height 100%
+			transition .6s
+			-webkit-transform-style preserve-3d
+			-webkit-transform-origin center
+			& figure
+				-webkit-backface-visibility hidden
+				display block
+				height 100%
+				margin 0
+				position absolute
+				width 100%
+		& .front
+			-webkit-transform rotateY(0deg)
+		& .back
+			-webkit-transform rotateY(180deg)
+			background-color white
+			color $neph
+			border 1px solid $white
+	& .tile
+		position relative		
+		color white
+		& .botonera
+			float right
+			display block
+			& a
+				display inline-block
+				background-color $neph
+				color white
+				padding .5em
+				&:hover
+					background-color $white
+	& .cornered::before
+		border-color $white
+		border-left-color $silver
+		border-bottom-color $silver
+		border-style solid
+		border-width 0 25px 25px 0
+		content ""
+		display block
+		position absolute
+		right 0
+		top 0
+	& .tile-header
+		position relative
+		& h2
+			margin 0
+			padding 1em
+	& .data-table
+		padding .2em 1em 2em 1em
+		overflow auto
+		& table
+			width 100%
+			display table
+			max-width 100%
+			& td
+				padding .5em
+				border-bottom 1px solid $neph
+
+//Medidas
+
+.small
+	width 32px !important
+	height 32px !important
+.medium
+	width 64px !important
+	height 64px !important
+.big
+	width 128px !important
+	height 128px !important
+.xl
+	width 250px
+	height 100px
+
+//Colour
+.azul
+	background-color $azul
+.river
+	background-color $river
+.neph
+	background-color $neph
+.white
+	background-color $white
+.emerald
+	background-color $emerald
+.turquesa
+	background-color $turquesa
+.silver
+	background-color $silver
+//End Colour
